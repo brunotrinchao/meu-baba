@@ -9,7 +9,7 @@ export const matches = [
     },
     away: {
       time: 'Corinthians',
-      score: 0,
+      score: 1,
       logo: 'corinthians.svg'
     }
   },
@@ -17,12 +17,12 @@ export const matches = [
     round: 2,
     home: {
       time: 'Santos',
-      score: 1,
+      score: null,
       logo: 'santos.svg'
     },
     away: {
       time: 'Bahia',
-      score: 1,
+      score: null,
       logo: 'bahia.svg'
     }
   },
@@ -30,12 +30,12 @@ export const matches = [
     round: 3,
     home: {
       time: 'Bahia',
-      score: 0,
+      score: null,
       logo: 'bahia.svg'
     },
     away: {
       time: 'Mirassol',
-      score: 1,
+      score: null,
       logo: 'mirassol.svg'
     }
   },
@@ -43,12 +43,12 @@ export const matches = [
     round: 4,
     home: {
       time: 'Cruzeiro',
-      score: 1,
+      score: null,
       logo: 'cruzeiro.svg'
     },
     away: {
       time: 'Bahia',
-      score: 11,
+      score: null,
       logo: 'bahia.svg'
     }
   },
@@ -56,12 +56,12 @@ export const matches = [
     round: 5,
     home: {
       time: 'Bahia',
-      score: 0,
+      score: null,
       logo: 'bahia.svg'
     },
     away: {
       time: 'Ceara',
-      score: 1,
+      score: null,
       logo: 'ceara.svg'
     }
   },
@@ -69,12 +69,12 @@ export const matches = [
     round: 6,
     home: {
       time: 'Palmeiras',
-      score: 1,
+      score: null,
       logo: 'palmeiras.svg'
     },
     away: {
       time: 'Bahia',
-      score: 0,
+      score: null,
       logo: 'bahia.svg'
     }
   },

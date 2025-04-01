@@ -1,34 +1,61 @@
 <template>
-  <div id="app">
-    <!-- <nav>
-      <router-link to="/">Home</router-link>
-      |
-      <router-link to="/about">About</router-link>
-    </nav> -->
-    <div class="container-fluid">
-      <router-view />
-    </div>
-  </div>
+  <v-app>
+    <v-app-bar app elevation="0" light class="white">
+      <!-- <div class="d-flex align-center"> -->
+      <v-toolbar-title>Metas</v-toolbar-title>
+      <!-- </div> -->
+
+      <v-spacer></v-spacer>
+      <v-row>
+        <v-col></v-col>
+        <v-col class="col-4">
+          <SelectTimes />
+        </v-col>
+        <!-- <v-col class="col-1">
+          <v-btn icon color="blue">
+            <v-icon>mdi-share</v-icon>
+          </v-btn>
+        </v-col> -->
+      </v-row>
+    </v-app-bar>
+
+    <v-main class="grey--lighten-3">
+      <v-container fluid>
+        <router-view />
+      </v-container>
+    </v-main>
+
+    <v-footer padless>
+      <small class="pa-4">
+        <i>
+          *Metas de pontuação com base na média das últimas edições e projeções do DP. de matemática da UFMG, afim de obter 99% de chances em cada cenário. 64
+          PTS LIBERTADORES / 57 PTS PRÉ LIBERTADORES / 49 PTS SUL-AMERICANA. As metas podem sofrer alterações nos blocos finais conforme o cenário do campeonato
+          atual.
+        </i>
+      </small>
+    </v-footer>
+  </v-app>
 </template>
 
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  color: #2c3e50;
-}
+<script>
+import SelectTimes from '@/components/SelectTimes';
+export default {
+  name: 'App',
 
-nav {
-  padding: 30px;
+  components: { SelectTimes },
 
-  a {
-    font-weight: bold;
-    color: #2c3e50;
+  data: () => ({}),
 
-    &.router-link-exact-active {
-      color: #42b983;
+  methods: {
+    getLogo(logo) {
+      return require(`@/assets/logos/${logo}`);
     }
   }
+};
+</script>
+
+<style>
+.grey--lighten-3 {
+  background-color: #eee;
 }
 </style>
