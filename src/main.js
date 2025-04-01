@@ -18,7 +18,7 @@ Vue.use(Vuetify); // Habilita o Vuetify
 const vuetify = new Vuetify();
 
 Vue.config.productionTip = false;
-
+document.title = process.env.VUE_APP_APPLICATION_NAME;
 // Vue.use(BootstrapVue);
 // Vue.use(IconsPlugin);
 Vue.use(Vuex);
