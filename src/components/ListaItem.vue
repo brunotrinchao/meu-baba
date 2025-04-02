@@ -96,9 +96,7 @@ export default {
     return {};
   },
 
-  mounted() {
-    console.log({ AQUI: this.teams });
-  },
+  mounted() {},
 
   methods: {}
 };
