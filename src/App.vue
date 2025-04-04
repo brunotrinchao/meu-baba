@@ -4,7 +4,7 @@
     <Preloader />
     <v-app-bar app elevation="0" light class="white">
       <!-- <div class="d-flex align-center"> -->
-      <v-toolbar-title>Metas | {{ process.env.VUE_APP_YEAR_ACTUAL }}</v-toolbar-title>
+      <v-toolbar-title>Metas | {{ yearTitle }}</v-toolbar-title>
       <!-- </div> -->
 
       <v-spacer></v-spacer>
@@ -48,7 +48,9 @@ export default {
 
   components: { SelectTimes, Preloader },
 
-  data: () => ({}),
+  data: () => ({
+    yearTitle: process.env.VUE_APP_YEAR_ACTUAL
+  }),
 
   computed: {
     ...mapGetters(['teams'])
