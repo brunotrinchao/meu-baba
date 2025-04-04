@@ -4,7 +4,7 @@
     <Preloader />
     <v-app-bar app elevation="0" light class="white">
       <!-- <div class="d-flex align-center"> -->
-      <v-toolbar-title>Metas</v-toolbar-title>
+      <v-toolbar-title>Metas | {{ process.env.VUE_APP_YEAR_ACTUAL }}</v-toolbar-title>
       <!-- </div> -->
 
       <v-spacer></v-spacer>

@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import App from './App.vue';
+import VueGtag from 'vue-gtag';
 // import { BootstrapVue, IconsPlugin } from 'bootstrap-vue';
 
 import Vuex from 'vuex';
@@ -24,6 +25,12 @@ document.title = process.env.VUE_APP_APPLICATION_NAME;
 Vue.use(Vuex);
 
 Vue.prototype.$eventBus = new Vue();
+
+Vue.use(VueGtag, {
+  config: {
+    id: process.env.VUE_APP_GOOGLE_ANALYTICS_PROPERTY_ID
+  }
+});
 
 new Vue({
   router,
