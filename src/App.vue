@@ -4,7 +4,7 @@
     <Preloader />
     <v-app-bar app elevation="0" light class="white">
       <!-- <div class="d-flex align-center"> -->
-      <v-toolbar-title>Metas | {{ yearTitle }}</v-toolbar-title>
+      <v-toolbar-title>Metas {{ yearTitle }} | {{ getTeamName }}</v-toolbar-title>
       <!-- </div> -->
 
       <v-spacer></v-spacer>
@@ -22,19 +22,34 @@
     </v-app-bar>
 
     <v-main class="grey--lighten-3">
-      <v-container fluid>
+      <v-container fluid class="py-5">
         <router-view />
       </v-container>
     </v-main>
 
     <v-footer padless>
-      <small class="pa-4">
-        <i>
+      <v-card flat class="text-center" width="100%">
+        <v-card-text>
+          <v-btn v-for="icon in icons" :key="icon" class="mx-4" icon>
+            <v-icon size="24px">
+              {{ icon }}
+            </v-icon>
+          </v-btn>
+        </v-card-text>
+
+        <v-card-text class="pt-0">
           *Metas de pontuação com base na média das últimas edições e projeções do DP. de matemática da UFMG, afim de obter 99% de chances em cada cenário. 64
           PTS LIBERTADORES / 57 PTS PRÉ LIBERTADORES / 49 PTS SUL-AMERICANA. As metas podem sofrer alterações nos blocos finais conforme o cenário do campeonato
           atual.
-        </i>
-      </small>
+        </v-card-text>
+
+        <v-divider></v-divider>
+
+        <v-card-text class="">
+          {{ new Date().getFullYear() }} —
+          <strong>Bruno Trinchão</strong>
+        </v-card-text>
+      </v-card>
     </v-footer>
   </v-app>
 </template>
@@ -49,11 +64,15 @@ export default {
   components: { SelectTimes, Preloader },
 
   data: () => ({
-    yearTitle: process.env.VUE_APP_YEAR_ACTUAL
+    yearTitle: process.env.VUE_APP_YEAR_ACTUAL,
+    icons: ['mdi-email', 'mdi-twitter', 'mdi-linkedin']
   }),
 
   computed: {
-    ...mapGetters(['teams'])
+    getTeamName() {
+      return this.teamSelected.name ?? null;
+    },
+    ...mapGetters(['teams', 'teamSelected'])
   },
 
   beforeMount() {
