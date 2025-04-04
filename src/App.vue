@@ -27,15 +27,7 @@
 
     <v-footer padless>
       <v-card flat class="text-center" width="100%">
-        <v-card-text>
-          <v-btn v-for="item in links" :key="item.icon" class="mx-4" :href="item.href" icon target="_blank" rel="noopener">
-            <v-icon size="24px">
-              {{ item.icon }}
-            </v-icon>
-          </v-btn>
-        </v-card-text>
-
-        <v-card-text class="pt-0">
+        <v-card-text class="pt-4">
           *Metas de pontuação com base na média das últimas edições e projeções do DP. de matemática da UFMG, afim de obter 99% de chances em cada cenário. 64
           PTS LIBERTADORES / 57 PTS PRÉ LIBERTADORES / 49 PTS SUL-AMERICANA. As metas podem sofrer alterações nos blocos finais conforme o cenário do campeonato
           atual.
@@ -43,9 +35,14 @@
 
         <v-divider></v-divider>
 
-        <v-card-text class="">
+        <v-card-text>
           {{ new Date().getFullYear() }} —
           <strong>Bruno Trinchão</strong>
+          <v-btn v-for="item in links" :key="item.icon" class="mx-4" :href="item.href" icon target="_blank" rel="noopener">
+            <v-icon size="24px">
+              {{ item.icon }}
+            </v-icon>
+          </v-btn>
         </v-card-text>
       </v-card>
     </v-footer>
