@@ -4,7 +4,10 @@
     <Preloader />
     <v-app-bar app elevation="0" light class="white">
       <!-- <div class="d-flex align-center"> -->
-      <v-toolbar-title>Metas {{ yearTitle }} | {{ getTeamName }}</v-toolbar-title>
+      <v-toolbar-title>
+        <img :src="getLogo()" height="30" />
+        {{ newTitle }} | {{ getTeamName }}
+      </v-toolbar-title>
       <!-- </div> -->
 
       <v-spacer></v-spacer>
@@ -13,11 +16,6 @@
         <v-col class="col-4">
           <SelectTimes />
         </v-col>
-        <!-- <v-col class="col-1">
-          <v-btn icon color="blue">
-            <v-icon>mdi-share</v-icon>
-          </v-btn>
-        </v-col> -->
       </v-row>
     </v-app-bar>
 
@@ -30,9 +28,9 @@
     <v-footer padless>
       <v-card flat class="text-center" width="100%">
         <v-card-text>
-          <v-btn v-for="icon in icons" :key="icon" class="mx-4" icon>
+          <v-btn v-for="item in links" :key="item.icon" class="mx-4" :href="item.href" icon target="_blank" rel="noopener">
             <v-icon size="24px">
-              {{ icon }}
+              {{ item.icon }}
             </v-icon>
           </v-btn>
         </v-card-text>
@@ -64,8 +62,21 @@ export default {
   components: { SelectTimes, Preloader },
 
   data: () => ({
-    yearTitle: process.env.VUE_APP_YEAR_ACTUAL,
-    icons: ['mdi-email', 'mdi-twitter', 'mdi-linkedin']
+    newTitle: `Meu Baba © ${process.env.VUE_APP_YEAR_ACTUAL}`,
+    links: [
+      {
+        icon: 'mdi-email',
+        href: 'mailto:contato@meubaba.com'
+      },
+      {
+        icon: 'mdi-twitter',
+        href: 'https://x.com/brunotrinchao'
+      },
+      {
+        icon: 'mdi-linkedin',
+        href: 'https://www.linkedin.com/in/bruno-trinchao/'
+      }
+    ]
   }),
 
   computed: {
@@ -79,9 +90,13 @@ export default {
     this.indexTeams();
   },
 
+  mounted() {
+    document.title = this.newTitle;
+  },
+
   methods: {
-    getLogo(logo) {
-      return require(`@/assets/logos/${logo}`);
+    getLogo() {
+      return require(`@/assets/logo.png`);
     },
     ...mapActions(['indexTeams'])
   }
