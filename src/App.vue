@@ -1,5 +1,7 @@
+<!-- eslint-disable prettier/prettier -->
 <template>
   <v-app>
+    <Preloader />
     <v-app-bar app elevation="0" light class="white">
       <!-- <div class="d-flex align-center"> -->
       <v-toolbar-title>Metas</v-toolbar-title>
@@ -36,24 +38,35 @@
     </v-footer>
   </v-app>
 </template>
-
+<!-- eslint-disable prettier/prettier -->
 <script>
+import { mapActions, mapGetters } from 'vuex';
 import SelectTimes from '@/components/SelectTimes';
+import Preloader from '@/components/preloader';
 export default {
   name: 'App',
 
-  components: { SelectTimes },
+  components: { SelectTimes, Preloader },
 
   data: () => ({}),
+
+  computed: {
+    ...mapGetters(['teams'])
+  },
+
+  beforeMount() {
+    this.indexTeams();
+  },
 
   methods: {
     getLogo(logo) {
       return require(`@/assets/logos/${logo}`);
-    }
+    },
+    ...mapActions(['indexTeams'])
   }
 };
 </script>
-
+<!-- eslint-disable prettier/prettier -->
 <style>
 .grey--lighten-3 {
   background-color: #eee;

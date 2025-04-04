@@ -1,6 +1,6 @@
 <!-- eslint-disable prettier/prettier -->
 <template>
-  <v-select v-model="selectedTeam" :items="teams" label="Selecione um time" outlined dense single-line hide-details disabled>
+  <v-select v-model="selected" :items="teamsList" label="Selecione um time" outlined dense single-line hide-details>
     <template v-slot:selection="{ item }">
       <v-avatar tile size="32" class="mr-2">
         <img :src="getLogo(item.logo)" alt="logo" />
@@ -19,28 +19,39 @@
 </template>
 <!-- eslint-disable prettier/prettier -->
 <script>
-import { times } from '@/db/times.js';
+import { mapActions, mapGetters } from 'vuex';
 
 export default {
   data() {
     return {
-      selectedTeam: {
-        id: 'bahia',
-        name: 'Bahia',
-        logo: 'bahia.svg'
-      },
-      teams: times
+      selected: {},
+      teamsList: []
     };
   },
 
-  mounted() {
-    console.log({ AQUI: this.teams });
+  watch: {
+    teams: {
+      handler(newVal) {
+        this.teamsList = newVal || [];
+      },
+      immediate: true
+    },
+    selected: {
+      handler(newVal) {
+        this.selectTeam(newVal);
+      }
+    }
+  },
+
+  computed: {
+    ...mapGetters(['teams'])
   },
 
   methods: {
     getLogo(logo) {
       return require(`@/assets/logos/${logo}`);
-    }
+    },
+    ...mapActions(['selectTeam'])
   }
 };
 </script>

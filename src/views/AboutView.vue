@@ -6,7 +6,7 @@
           <v-card-title class="text-h5 pa-2 align-center text-center align-content-center align-self-center">Bloco 0{{ index + 1 }}</v-card-title>
           <v-divider></v-divider>
           <!-- <v-progress-linear value="15" color="deep-purple accent-4"></v-progress-linear> -->
-          <v-card-text class="pa-0">
+          <v-card-text class="pa-0" v-show="groups.length">
             <Match :index="index" :group="group" :calcResultMatch="calcResultMatch" :getLogo="getLogo" />
             <ListaItem
               :index="index"
@@ -58,7 +58,8 @@
 </template>
 
 <script>
-import { matches } from '@/db/db.js';
+import { mapGetters } from 'vuex';
+// import { matches } from '@/db/db.js';
 import ListaItem from '@/components/ListaItem';
 import Match from '@/components/Match';
 
@@ -71,7 +72,7 @@ export default {
   data() {
     return {
       time: 'Bahia',
-      matches: matches,
+      // matches: matches,
       totalPoint: {
         libertadores: {
           meta: [],
@@ -97,29 +98,40 @@ export default {
     };
   },
 
+  watch: {
+    groupMatch: {
+      handler() {
+        this.divideIntoGroups();
+      }
+    }
+  },
+
+  computed: {
+    ...mapGetters(['groupMatch', 'teamSelected'])
+  },
+
   mounted() {
     this.calcMeta();
   },
 
   async created() {
-    this.divideIntoGroups();
     this.calcMeta();
   },
 
   methods: {
     divideIntoGroups() {
-      const totalMatches = this.matches.length;
+      const totalMatches = this.groupMatch.length;
       const groupCount = 6; // Número de grupos com 6 jogos
       const groupSize = 6; // Tamanho de cada grupo (exceto o último)
 
       let currentIndex = 0;
-
+      this.groups = [];
       // Cria os primeiros 5 grupos com 6 jogos
       for (let i = 0; i < groupCount; i++) {
         const group = [];
         for (let j = 0; j < groupSize; j++) {
           if (currentIndex < totalMatches) {
-            group.push(this.matches[currentIndex]);
+            group.push(this.groupMatch[currentIndex]);
             currentIndex++;
           }
         }
@@ -127,11 +139,12 @@ export default {
         this.groups.push(group);
       }
 
-      const remainingMatches = this.matches.slice(currentIndex);
+      const remainingMatches = this.groupMatch.slice(currentIndex);
       this.groups.push(remainingMatches);
     },
 
     getLogo(logo) {
+      console.log('AvoutView', logo);
       return require(`@/assets/logos/${logo}`);
     },
 
@@ -141,7 +154,7 @@ export default {
         return null;
       }
 
-      if (home.time === this.time) {
+      if (home.id === this.teamSelected.id) {
         if (home.score > away.score) {
           return '+3';
         } else if (home.score === away.score) {
@@ -149,7 +162,7 @@ export default {
         } else {
           return 0; // Bahia perdeu
         }
-      } else if (away.time === this.time) {
+      } else if (away.id === this.teamSelected.id) {
         if (away.score > home.score) {
           return '+3'; // Bahia ganhou
         } else if (away.score === home.score) {
@@ -163,8 +176,9 @@ export default {
       return null;
     },
 
-    calcResultMatch(match) {
-      const result = this.calcMatch(match);
+    calcResultMatch(group) {
+      const result = this.calcMatch(group.match);
+      console.log({ calcResultMatch: group });
       if (result === '+3') {
         return 'green green--text text--accent-4';
       } else if (result === '+1') {
@@ -178,8 +192,8 @@ export default {
 
     calcGroup(matchs) {
       let score = 0;
-      matchs.forEach((match) => {
-        const result = this.calcMatch(match);
+      matchs.forEach((item) => {
+        const result = this.calcMatch(item.match);
         if (result === '+3') {
           score += 3;
         } else if (result === '+1') {
@@ -233,11 +247,10 @@ export default {
           this.totalPoint[key].meta.push(restante);
         }
       });
-      console.log();
     },
 
     isGroupPlayed(group) {
-      return group.some((match) => match.home.score !== null || match.away.score !== null);
+      return group.some((item) => item.match.home.score !== null || item.match.away.score !== null);
     }
   }
 };

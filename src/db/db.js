@@ -140,7 +140,7 @@ export const matches = [
     away: {
       time: 'São Paulo',
       score: null,
-      logo: 'saopaulo.svg'
+      logo: 'sao-paulo.svg'
     }
   },
   {
@@ -148,7 +148,7 @@ export const matches = [
     home: {
       time: 'Red Bull Bragantino',
       score: null,
-      logo: 'redbull.svg'
+      logo: 'red-bull-bragantino.svg'
     },
     away: {
       time: 'Bahia',
@@ -200,7 +200,7 @@ export const matches = [
     home: {
       time: 'Vasco da Gama',
       score: null,
-      logo: 'vasco.svg'
+      logo: 'vasco-da-gama.svg'
     },
     away: {
       time: 'Bahia',
@@ -382,7 +382,7 @@ export const matches = [
     home: {
       time: 'São Paulo',
       score: null,
-      logo: 'saopaulo.svg'
+      logo: 'sao-paulo.svg'
     },
     away: {
       time: 'Bahia',
@@ -400,7 +400,7 @@ export const matches = [
     away: {
       time: 'Red Bull Bragantino',
       score: null,
-      logo: 'redbull.svg'
+      logo: 'red-bull-bragantino.svg'
     }
   },
   {
@@ -452,7 +452,7 @@ export const matches = [
     away: {
       time: 'Vasco da Gama',
       score: null,
-      logo: 'vasco.svg'
+      logo: 'vasco-da-gama.svg'
     }
   },
   {

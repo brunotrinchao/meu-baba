@@ -23,6 +23,8 @@ document.title = process.env.VUE_APP_APPLICATION_NAME;
 // Vue.use(IconsPlugin);
 Vue.use(Vuex);
 
+Vue.prototype.$eventBus = new Vue();
+
 new Vue({
   router,
   store,

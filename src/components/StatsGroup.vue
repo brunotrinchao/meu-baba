@@ -53,6 +53,7 @@ export default {
   },
   methods: {
     getLogo(logo) {
+      console.log('startGroup', logo);
       return require(`@/assets/logos/${logo}`);
     },
     calculateProgress(match) {
