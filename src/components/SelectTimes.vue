@@ -20,7 +20,7 @@
 <!-- eslint-disable prettier/prettier -->
 <script>
 import { mapActions, mapGetters } from 'vuex';
-
+import { EventBus } from '@/event-bus';
 export default {
   data() {
     return {
@@ -39,12 +39,21 @@ export default {
     selected: {
       handler(newVal) {
         this.selectTeam(newVal);
+        EventBus.$emit('drawer-close');
       }
+    },
+    teamSelected: {
+      handler(newVal) {
+        if (newVal.id) {
+          this.selected = newVal;
+        }
+      },
+      immediate: true
     }
   },
 
   computed: {
-    ...mapGetters(['teams'])
+    ...mapGetters(['teams', 'teamSelected'])
   },
 
   methods: {

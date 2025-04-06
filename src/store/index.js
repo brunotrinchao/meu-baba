@@ -43,7 +43,6 @@ export default new Vuex.Store({
     async selectTeam({ commit, state }, team) {
       try {
         return await api.obter(`/${state.championshipId}/matches/team/${team.id}`, {}).then((data) => {
-          console.log(data);
           if (!data.error) {
             commit('SET_GROUP_MATCH', data);
 

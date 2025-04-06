@@ -4,6 +4,7 @@
     <Preloader />
     <v-app-bar app elevation="0" light class="white">
       <!-- <div class="d-flex align-center"> -->
+      <v-app-bar-nav-icon @click.stop="drawer = !drawer" v-if="$vuetify.breakpoint.mdAndDown"></v-app-bar-nav-icon>
       <v-toolbar-title>
         <img :src="getLogo()" height="30" />
         {{ newTitle }} | {{ getTeamName }}
@@ -11,16 +12,16 @@
       <!-- </div> -->
 
       <v-spacer></v-spacer>
-      <v-row>
-        <v-col></v-col>
-        <v-col class="col-4">
+      <v-row v-if="$vuetify.breakpoint.mdAndUp">
+        <v-spacer></v-spacer>
+        <v-col class="col-md-4 col-sm-12">
           <SelectTimes />
         </v-col>
       </v-row>
     </v-app-bar>
 
     <v-main class="grey--lighten-3">
-      <v-container fluid class="py-5">
+      <v-container fluid class="py-5" ref="targetShare">
         <router-view />
       </v-container>
     </v-main>
@@ -43,9 +44,39 @@
               {{ item.icon }}
             </v-icon>
           </v-btn>
+
+          <!-- <v-btn icon class="mx-4" @click="shareMeta">
+            <v-icon>mdi-share</v-icon>
+          </v-btn> -->
         </v-card-text>
       </v-card>
     </v-footer>
+
+    <v-navigation-drawer v-model="drawer" absolute temporary>
+      <v-list-item>
+        <v-list-item-content>
+          <SelectTimes />
+        </v-list-item-content>
+      </v-list-item>
+
+      <v-divider></v-divider>
+
+      <!-- <v-list dense>
+        <v-list-item
+          v-for="item in items"
+          :key="item.title"
+          link
+        >
+          <v-list-item-icon>
+            <v-icon>{{ item.icon }}</v-icon>
+          </v-list-item-icon>
+
+          <v-list-item-content>
+            <v-list-item-title>{{ item.title }}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list> -->
+    </v-navigation-drawer>
   </v-app>
 </template>
 <!-- eslint-disable prettier/prettier -->
@@ -53,12 +84,15 @@
 import { mapActions, mapGetters } from 'vuex';
 import SelectTimes from '@/components/SelectTimes';
 import Preloader from '@/components/preloader';
+import html2canvas from 'html2canvas';
+import { EventBus } from '@/event-bus';
 export default {
   name: 'App',
 
   components: { SelectTimes, Preloader },
 
   data: () => ({
+    drawer: null,
     newTitle: `Meu Baba © ${process.env.VUE_APP_YEAR_ACTUAL}`,
     links: [
       {
@@ -73,7 +107,8 @@ export default {
         icon: 'mdi-linkedin',
         href: 'https://www.linkedin.com/in/bruno-trinchao/'
       }
-    ]
+    ],
+    imageMeta: null
   }),
 
   computed: {
@@ -84,6 +119,10 @@ export default {
   },
 
   beforeMount() {
+    EventBus.$on('drawer-close', () => {
+      console.log('OKOKOKOK');
+      this.drawer = false;
+    });
     this.indexTeams();
   },
 
@@ -94,6 +133,20 @@ export default {
   methods: {
     getLogo() {
       return require(`@/assets/logo.png`);
+    },
+    shareMeta() {
+      const alvo = this.$refs.targetShare;
+
+      html2canvas(alvo).then((canvas) => {
+        const imagemGerada = canvas.toDataURL('image/png');
+        this.imageMeta = imagemGerada;
+
+        // Se quiser baixar direto:
+        const link = document.createElement('a');
+        link.href = imagemGerada;
+        link.download = 'print-meubaba.png';
+        link.click();
+      });
     },
     ...mapActions(['indexTeams'])
   }

@@ -1,6 +1,6 @@
 <template>
   <div class="about">
-    <v-row dense>
+    <v-row dense v-if="$vuetify.breakpoint.mdAndUp">
       <v-col v-for="(group, index) in groups" :key="index">
         <v-card light elevation="1" class="rounded-lg overflow-hidden">
           <v-card-title class="text-h5 pa-2 align-center text-center align-content-center align-self-center">Bloco 0{{ index + 1 }}</v-card-title>
@@ -54,11 +54,62 @@
         </v-card>
       </v-col>
     </v-row>
+    <div class="scrolling-wrapper" v-else>
+      <v-card light elevation="1" class="card rounded-lg overflow-hidden" v-for="(group, index) in groups" :key="index">
+        <v-card-title class="text-h5 pa-2 align-center text-center align-content-center align-self-center">Bloco 0{{ index + 1 }}</v-card-title>
+        <v-divider></v-divider>
+        <v-card-text class="pa-0" v-show="groups.length">
+          <Match :index="index" :group="group" :calcResultMatch="calcResultMatch" :getLogo="getLogo" />
+          <ListaItem
+            :index="index"
+            :group="group"
+            title="Libertadores"
+            systemBarHeight="20px"
+            :metaData="totalPoint.libertadores.meta"
+            :saldoTotalData="saldoTotalLibertadores"
+            :saldoData="saldoLibertadores"
+            :isGroupPlayed="isGroupPlayed"
+            :calcGroup="calcGroup"
+            :calcularSaldo="calcularSaldo"
+            :calculaSaldoTotal="calculaSaldoTotal"
+            color="blue lighten-2"
+          />
+          <ListaItem
+            :index="index"
+            :group="group"
+            title="Pré-Libertadores"
+            systemBarHeight="10px"
+            :metaData="totalPoint.prelibertadores.meta"
+            :saldoTotalData="saldoTotalPreLibertadores"
+            :saldoData="saldoPreLibertadores"
+            :isGroupPlayed="isGroupPlayed"
+            :calcGroup="calcGroup"
+            :calcularSaldo="calcularSaldo"
+            :calculaSaldoTotal="calculaSaldoTotal"
+            color="green lighten-3"
+          />
+          <ListaItem
+            :index="index"
+            :group="group"
+            title="Sulamericana"
+            systemBarHeight="10px"
+            :metaData="totalPoint.sulamericana.meta"
+            :saldoTotalData="saldoTotalSulamericana"
+            :saldoData="saldoSulamericana"
+            :isGroupPlayed="isGroupPlayed"
+            :calcGroup="calcGroup"
+            :calcularSaldo="calcularSaldo"
+            :calculaSaldoTotal="calculaSaldoTotal"
+            color="yellow lighten-4"
+          />
+        </v-card-text>
+      </v-card>
+    </div>
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 // import { matches } from '@/db/db.js';
 import ListaItem from '@/components/ListaItem';
 import Match from '@/components/Match';
@@ -103,6 +154,14 @@ export default {
       handler() {
         this.divideIntoGroups();
       }
+    },
+    teamSelected: {
+      handler(val) {
+        if (val.id) {
+          this.selectTeam(val);
+        }
+      },
+      immediate: true
     }
   },
 
@@ -144,7 +203,6 @@ export default {
     },
 
     getLogo(logo) {
-      console.log('AvoutView', logo);
       return require(`@/assets/logos/${logo}`);
     },
 
@@ -178,7 +236,6 @@ export default {
 
     calcResultMatch(group) {
       const result = this.calcMatch(group.match);
-      console.log({ calcResultMatch: group });
       if (result === '+3') {
         return 'green green--text text--accent-4';
       } else if (result === '+1') {
@@ -251,7 +308,25 @@ export default {
 
     isGroupPlayed(group) {
       return group.some((item) => item.match.home.score !== null || item.match.away.score !== null);
-    }
+    },
+    ...mapActions(['selectTeam'])
   }
 };
 </script>
+
+<style scoped lang="scss">
+.scrolling-wrapper {
+  overflow-x: scroll;
+  overflow-y: hidden;
+  white-space: nowrap;
+  -webkit-overflow-scrolling: touch;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  .card {
+    display: inline-block;
+    width: 100vw;
+    margin-right: 10px;
+  }
+}
+</style>
