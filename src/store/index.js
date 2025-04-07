@@ -2,6 +2,7 @@
 import api from '@/api/api';
 import Vue from 'vue';
 import Vuex from 'vuex';
+import Swal from 'sweetalert2';
 
 Vue.use(Vuex);
 
@@ -10,7 +11,8 @@ export default new Vuex.Store({
     teams: [],
     teamSelected: {},
     groupMatch: [],
-    championshipId: process.env.VUE_APP_CHAMPIONSHIP_ID
+    championshipId: process.env.VUE_APP_CHAMPIONSHIP_ID,
+    rounds: []
   },
   getters: {
     teams: (state) => state.teams,
@@ -26,6 +28,9 @@ export default new Vuex.Store({
     },
     SET_GROUP_MATCH(state, group) {
       state.groupMatch = group;
+    },
+    SET_ROUNDS(state, rounds) {
+      state.rounds = rounds;
     }
   },
   actions: {
@@ -54,6 +59,52 @@ export default new Vuex.Store({
       } catch (error) {
         console.error('Erro ao buscar partidas do time:', error);
         return [];
+      }
+    },
+    async getRounds({ commit, state }) {
+      try {
+        return await api.obter(`/${state.championshipId}/matches`, {}).then((data) => {
+          if (!data.error) {
+            console.log(data);
+            commit('SET_ROUNDS', data);
+            return data;
+          }
+          return [];
+        });
+      } catch (error) {
+        console.error('Erro ao buscar partidas do time:', error);
+        return [];
+      }
+    },
+    async getRound({ state }, roundSelected) {
+      return state.rounds.filter((el) => el.round === roundSelected);
+    },
+    async saveGameScore({ state }, { id, params }) {
+      try {
+        return await api.alterar(`/${state.championshipId}/matches/${id}/score`, params).then((data) => {
+          if (!data.error) {
+            Swal.fire({
+              title: 'Jogo salvo com sucesso!',
+              icon: 'success',
+              toast: true,
+              showConfirmButton: false,
+              timer: 2000,
+              timerProgressBar: false
+            });
+            return;
+          }
+          Swal.fire({
+            title: data.error,
+            icon: 'error',
+            toast: true,
+            showConfirmButton: false,
+            timer: 2000,
+            timerProgressBar: false
+          });
+          return;
+        });
+      } catch (error) {
+        console.error('Erro ao buscar partidas do time:', error);
       }
     }
   },
