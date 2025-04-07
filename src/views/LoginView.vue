@@ -74,8 +74,8 @@ import Swal from 'sweetalert2';
 export default {
   data() {
     return {
-      email: 'brunotrinchao@gmail.com',
-      password: '16092015',
+      email: '',
+      password: '',
       loading: false,
       authenticated: false,
       rodadaSelecionada: null,
