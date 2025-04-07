@@ -7,7 +7,11 @@
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" v-if="$vuetify.breakpoint.mdAndDown"></v-app-bar-nav-icon>
       <v-toolbar-title>
         <img :src="getLogo()" height="30" />
-        {{ newTitle }} | {{ getTeamName }}
+        {{ newTitle }} |
+        <span v-if="$vuetify.breakpoint.mdAndUp">{{ getTeamName }}</span>
+        <span v-else>
+          <img :src="getTeamLogo()" height="30" />
+        </span>
       </v-toolbar-title>
       <!-- </div> -->
 
@@ -133,6 +137,9 @@ export default {
   methods: {
     getLogo() {
       return require(`@/assets/logo.png`);
+    },
+    getTeamLogo() {
+      return require(`@/assets/logos/${this.teamSelected.logo}`);
     },
     shareMeta() {
       const alvo = this.$refs.targetShare;
