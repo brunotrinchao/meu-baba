@@ -124,7 +124,6 @@ export default {
 
   beforeMount() {
     EventBus.$on('drawer-close', () => {
-      console.log('OKOKOKOK');
       this.drawer = false;
     });
     this.indexTeams();
@@ -139,7 +138,7 @@ export default {
       return require(`@/assets/logo.png`);
     },
     getTeamLogo() {
-      return require(`@/assets/logos/${this.teamSelected.logo}`);
+      return this.teamSelected.logo ? require(`@/assets/logos/${this.teamSelected.logo}`) : null;
     },
     shareMeta() {
       const alvo = this.$refs.targetShare;
