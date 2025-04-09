@@ -36,6 +36,19 @@
           </v-col>
         </v-row>
       </v-list-item>
+      <v-divider></v-divider>
+      <v-list-item class="px-2" dense>
+        <v-row>
+          <v-col>
+            <v-list-item-title>
+              Aproveitamento:
+              <span>
+                {{ isGroupPlayed(group) ? calcAproveitamento(calcGroup(group).acumulado).percentual : null }}
+              </span>
+            </v-list-item-title>
+          </v-col>
+        </v-row>
+      </v-list-item>
     </v-list>
   </div>
 </template>
@@ -93,11 +106,45 @@ export default {
   },
 
   data() {
-    return {};
+    return {
+      win: 3,
+      draw: 1,
+      lose: 0
+    };
+  },
+
+  computed: {
+    pontosAcumulados(group) {
+      return this.calcGroup(group).acumulado;
+    }
   },
 
   mounted() {},
 
-  methods: {}
+  methods: {
+    calcAproveitamento(acumulado) {
+      // const jogos = this.group?.length || 0;
+      const pontosPossiveis = this.metaData[this.index];
+
+      if (pontosPossiveis === 0) {
+        return {
+          percentual: '0.00%',
+          color: 'red'
+        };
+      }
+
+      const aproveitamento = (acumulado / pontosPossiveis) * 100;
+      const percentual = `${aproveitamento.toFixed(2)}%`;
+
+      let color = 'error';
+      if (aproveitamento >= 80) {
+        color = 'primary';
+      } else if (aproveitamento >= 50) {
+        color = 'warning';
+      }
+
+      return { percentual, color };
+    }
+  }
 };
 </script>
