@@ -24,6 +24,11 @@ document.title = process.env.VUE_APP_APPLICATION_NAME;
 // Vue.use(IconsPlugin);
 Vue.use(Vuex);
 
+import VueApexCharts from 'vue-apexcharts';
+Vue.use(VueApexCharts);
+
+Vue.component('apexchart', VueApexCharts);
+
 Vue.prototype.$eventBus = new Vue();
 
 Vue.use(VueGtag, {

@@ -19,7 +19,7 @@
       <v-row v-if="$vuetify.breakpoint.mdAndUp">
         <v-spacer></v-spacer>
         <v-col class="col-md-4 col-sm-12">
-          <SelectTimes />
+          <SelectTimes v-if="showSelectTeams" />
         </v-col>
       </v-row>
     </v-app-bar>
@@ -129,6 +129,15 @@ export default {
     ]
   }),
 
+  watch: {
+    $route: {
+      handler() {
+        console.log(this.$route.name);
+      },
+      immediate: true
+    }
+  },
+
   computed: {
     getTeamName() {
       return this.teamSelected.name ?? null;
@@ -136,9 +145,9 @@ export default {
     getTeamSelected() {
       return this.teamSelected.id ?? null;
     },
-    // showSelectTeams(){
-    //   return this.$router
-    // },
+    showSelectTeams() {
+      return this.$route.name == 'metas';
+    },
     ...mapGetters(['teams', 'teamSelected'])
   },
 
@@ -151,7 +160,6 @@ export default {
 
   mounted() {
     document.title = this.newTitle;
-    console.log(this.$route.name);
   },
 
   methods: {
