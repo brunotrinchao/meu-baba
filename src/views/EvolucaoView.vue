@@ -39,7 +39,7 @@
 export default {
   data() {
     return {
-      type: 'line',
+      type: 'area',
       colors: [
         '#0056b3', // Azul escuro (variação do primary)
         '#20c997', // Verde médio (variação do success)
@@ -54,8 +54,24 @@ export default {
       ],
       series: [
         {
-          name: 'series-1',
-          data: [30, 40, 35, 50, 49, 60, 70, 91]
+          name: 'Time A',
+          data: [1, 4]
+        },
+        {
+          name: 'Time B',
+          data: [8, 2]
+        },
+        {
+          name: 'Libertadores (64 pts)',
+          data: [10, 10, 10, 10, 10, 10, 4]
+        },
+        {
+          name: 'Pré-Libertadores (57 pts)',
+          data: Array(7).fill(57)
+        },
+        {
+          name: 'Sul-Americana (49 pts)',
+          data: Array(7).fill(49)
         }
       ]
     };
@@ -63,8 +79,52 @@ export default {
   computed: {
     getOptions() {
       return {
-        ...this.options,
-        colors: this.series.map((_, index) => this.colors[index % this.colors.length])
+        chart: {
+          id: 'evolucao-dos-times',
+          toolbar: { show: false }
+        },
+        title: {
+          text: '',
+          align: 'left'
+        },
+        xaxis: {
+          categories: ['Bloco 1', 'Bloco 2', 'Bloco 3', 'Bloco 4', 'Bloco 5', 'Bloco 6', 'Bloco 7'],
+          title: { text: 'Blocos' }
+        },
+        yaxis: {
+          title: { text: 'Pontos Acumulados' },
+          min: 0,
+          max: 70
+        },
+        colors: this.colors,
+        stroke: {
+          curve: 'smooth',
+          width: 2,
+          dashArray: [0, 0, 5, 5, 5] // Metas com linha tracejada
+        },
+        fill: {
+          type: 'gradient',
+          gradient: {
+            shadeIntensity: 1,
+            opacityFrom: 0.4,
+            opacityTo: 0,
+            stops: [0, 90, 100]
+          }
+        },
+        markers: {
+          size: 5
+        },
+        tooltip: {
+          shared: true,
+          intersect: false,
+          y: {
+            formatter: (val) => `${val} pts`
+          }
+        },
+        legend: {
+          position: 'top',
+          horizontalAlign: 'center'
+        }
       };
     },
     getSeries() {

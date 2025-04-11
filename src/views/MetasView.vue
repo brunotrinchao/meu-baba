@@ -3,9 +3,15 @@
     <v-row dense v-if="$vuetify.breakpoint.mdAndUp">
       <v-col v-for="(group, index) in groups" :key="index">
         <v-card light elevation="1" class="rounded-lg overflow-hidden">
-          <v-card-title class="text-h5 pa-2 align-center text-center align-content-center align-self-center">Bloco 0{{ index + 1 }}</v-card-title>
+          <v-card-title class="text-h5 pa-2 align-center text-center align-content-center align-self-center">
+            <span class="text-h6 font-weight-light">Bloco 0{{ index + 1 }}</span>
+            <v-spacer></v-spacer>
+            <v-btn color="primary" :disabled="!isGroupPlayed(group)" @click="openDialog(group, index)" outlined fab x-small>
+              <v-icon>mdi-chart-areaspline</v-icon>
+            </v-btn>
+          </v-card-title>
           <v-divider></v-divider>
-          <!-- <v-progress-linear value="15" color="deep-purple accent-4"></v-progress-linear> -->
+
           <v-card-text class="pa-0" v-show="groups.length">
             <Match :index="index" :group="group" :calcResultMatch="calcResultMatch" :getLogo="getLogo" />
             <ListaItem
@@ -56,7 +62,13 @@
     </v-row>
     <div class="scrolling-wrapper" v-else>
       <v-card light elevation="1" class="card rounded-lg overflow-hidden" v-for="(group, index) in groups" :key="index">
-        <v-card-title class="text-h5 pa-2 align-center text-center align-content-center align-self-center">Bloco 0{{ index + 1 }}</v-card-title>
+        <v-card-title class="text-h5 pa-2 align-center text-center align-content-center align-self-center">
+          <span class="text-h6 font-weight-light">Bloco 0{{ index + 1 }}</span>
+          <v-spacer></v-spacer>
+          <v-btn color="primary" :disabled="!isGroupPlayed(group)" @click="openDialog(group, index)" outlined fab x-small v-if="isGroupPlayed(group)">
+            <v-icon>mdi-chart-areaspline</v-icon>
+          </v-btn>
+        </v-card-title>
         <v-divider></v-divider>
         <v-card-text class="pa-0" v-show="groups.length">
           <Match :index="index" :group="group" :calcResultMatch="calcResultMatch" :getLogo="getLogo" />
@@ -105,6 +117,7 @@
         </v-card-text>
       </v-card>
     </div>
+    <DialogDetails ref="dialogDetails" :id="idChart" />
   </div>
 </template>
 
@@ -113,17 +126,19 @@ import { mapGetters, mapActions } from 'vuex';
 // import { matches } from '@/db/db.js';
 import ListaItem from '@/components/ListaItem';
 import Match from '@/components/Match';
+import DialogDetails from '@/components/DialogDetails';
+import EvolutionChart from '@/components/EvolutionChart';
 
 export default {
   name: 'AboutView',
   components: {
     ListaItem,
-    Match
+    Match,
+    DialogDetails
   },
   data() {
     return {
-      time: 'Bahia',
-      // matches: matches,
+      idChart: null,
       totalPoint: {
         libertadores: {
           meta: [],
@@ -180,12 +195,12 @@ export default {
   methods: {
     divideIntoGroups() {
       const totalMatches = this.groupMatch.length;
-      const groupCount = 6; // Número de grupos com 6 jogos
-      const groupSize = 6; // Tamanho de cada grupo (exceto o último)
+      const groupCount = 6;
+      const groupSize = 6;
 
       let currentIndex = 0;
       this.groups = [];
-      // Cria os primeiros 5 grupos com 6 jogos
+
       for (let i = 0; i < groupCount; i++) {
         const group = [];
         for (let j = 0; j < groupSize; j++) {
@@ -216,21 +231,20 @@ export default {
         if (home.score > away.score) {
           return '+3';
         } else if (home.score === away.score) {
-          return '+1'; // Empate
+          return '+1';
         } else {
-          return 0; // Bahia perdeu
+          return 0;
         }
       } else if (away.id === this.teamSelected.id) {
         if (away.score > home.score) {
-          return '+3'; // Bahia ganhou
+          return '+3';
         } else if (away.score === home.score) {
-          return '+1'; // Empate
+          return '+1';
         } else {
-          return 0; // Bahia perdeu
+          return 0;
         }
       }
 
-      // Caso não seja o Bahia jogando
       return null;
     },
 
@@ -308,6 +322,24 @@ export default {
 
     isGroupPlayed(group) {
       return group.some((item) => item.match.home.score !== null || item.match.away.score !== null);
+    },
+    openDialog(group, index) {
+      this.idChart = Math.floor(Math.random() * 21);
+      const dialogDetails = this.$refs.dialogDetails;
+      if (dialogDetails) {
+        dialogDetails.open({
+          title: this.teamSelected.name,
+          component: EvolutionChart,
+          componentData: {
+            teamName: this.teamSelected.name,
+            bloco: index + 1,
+            matches: group,
+            team: this.teamSelected
+          }
+        });
+      } else {
+        console.error('DialogDetails não está definido.');
+      }
     },
     ...mapActions(['selectTeam'])
   }

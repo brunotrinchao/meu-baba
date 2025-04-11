@@ -37,6 +37,11 @@ Vue.use(VueGtag, {
   }
 });
 
+// Importa o DialogDetails
+import DialogDetails from '@/components/DialogDetails';
+
+Vue.component('DialogDetails', DialogDetails);
+
 new Vue({
   router,
   store,
