@@ -88,16 +88,16 @@ export default {
               {
                 y: 10,
                 type: 'range',
-                borderColor: '#00E396',
-                fillColor: '#00E396',
+                borderColor: '#2196F3',
+                fillColor: '#2196F3',
                 opacity: 0.2,
                 label: {
                   position: 'left',
-                  borderColor: '#00E396',
+                  borderColor: '#2196F3',
                   style: {
                     fontSize: '10px',
                     color: '#fff',
-                    background: '#00E396',
+                    background: '#2196F3',
                     padding: {
                       left: 5,
                       right: 5,
@@ -112,16 +112,16 @@ export default {
               {
                 y: 9,
                 type: 'range',
-                borderColor: '#FEB019',
-                fillColor: '#FEB019',
+                borderColor: '#A5D6A7',
+                fillColor: '#A5D6A7',
                 opacity: 0.2,
                 label: {
-                  borderColor: '#FEB019',
+                  borderColor: '#A5D6A7',
                   position: 'center',
                   style: {
                     fontSize: '10px',
                     color: '#fff',
-                    background: '#FEB019',
+                    background: '#A5D6A7',
                     padding: {
                       left: 5,
                       right: 5,
@@ -135,15 +135,15 @@ export default {
               {
                 y: 8,
                 type: 'range',
-                borderColor: '#FF4560',
-                fillColor: '#FF4560',
+                borderColor: '#FFEB3B',
+                fillColor: '#FFEB3B',
                 opacity: 0.2,
                 label: {
-                  borderColor: '#FF4560',
+                  borderColor: '#FFEB3B',
                   style: {
                     fontSize: '10px',
                     color: '#fff',
-                    background: '#FF4560',
+                    background: '#FFEB3B',
                     padding: {
                       left: 5,
                       right: 5,
