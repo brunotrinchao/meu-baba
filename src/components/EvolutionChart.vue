@@ -269,6 +269,9 @@ export default {
         this.dataRound.options.chart.customMatches = matches.map((m) => m.match);
         this.dataRound.options.chart.customTeam = team;
 
+        this.dataMetas.options.yaxis.max = 3;
+        this.dataMetas.options.yaxis.tickAmount = 3;
+
         let total = 0;
         this.dataMetas.series[0].data = matches.map((item) => {
           const pontos = this.calcMatch(item.match) || 0;
