@@ -24,6 +24,11 @@ document.title = process.env.VUE_APP_APPLICATION_NAME;
 // Vue.use(IconsPlugin);
 Vue.use(Vuex);
 
+import VueApexCharts from 'vue-apexcharts';
+Vue.use(VueApexCharts);
+
+Vue.component('apexchart', VueApexCharts);
+
 Vue.prototype.$eventBus = new Vue();
 
 Vue.use(VueGtag, {
@@ -31,6 +36,11 @@ Vue.use(VueGtag, {
     id: process.env.VUE_APP_GOOGLE_ANALYTICS_PROPERTY_ID
   }
 });
+
+// Importa o DialogDetails
+import DialogDetails from '@/components/DialogDetails';
+
+Vue.component('DialogDetails', DialogDetails);
 
 new Vue({
   router,

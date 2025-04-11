@@ -5,15 +5,20 @@ import VueRouter from 'vue-router';
 Vue.use(VueRouter);
 
 const routes = [
-  // {
-  //   path: '/',
-  //   name: 'home',
-  //   component: HomeView
-  // },
   {
     path: '/',
-    name: 'about',
-    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
+    name: 'home',
+    component: () => import(/* webpackChunkName: "home" */ '../views/HomeView.vue')
+  },
+  {
+    path: '/metas',
+    name: 'metas',
+    component: () => import(/* webpackChunkName: "metas" */ '../views/MetasView.vue')
+  },
+  {
+    path: '/evolucao',
+    name: 'evolucao',
+    component: () => import(/* webpackChunkName: "metas" */ '../views/EvolucaoView.vue')
   },
   {
     path: '/login',

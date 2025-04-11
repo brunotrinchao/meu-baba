@@ -4,7 +4,7 @@
     <Preloader />
     <v-app-bar app elevation="0" light class="white">
       <!-- <div class="d-flex align-center"> -->
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer" v-if="$vuetify.breakpoint.mdAndDown"></v-app-bar-nav-icon>
+      <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       <v-toolbar-title>
         <img :src="getLogo()" height="30" />
         {{ newTitle }} |
@@ -19,7 +19,7 @@
       <v-row v-if="$vuetify.breakpoint.mdAndUp">
         <v-spacer></v-spacer>
         <v-col class="col-md-4 col-sm-12">
-          <SelectTimes />
+          <SelectTimes v-if="showSelectTeams" />
         </v-col>
       </v-row>
     </v-app-bar>
@@ -56,30 +56,23 @@
       </v-card>
     </v-footer>
 
-    <v-navigation-drawer v-model="drawer" absolute temporary>
+    <v-navigation-drawer v-model="drawer" absolute temporary class="blue-grey lighten-5">
       <v-list-item>
-        <v-list-item-content>
-          <SelectTimes />
+        <v-list-item-content v-if="$vuetify.breakpoint.mdAndDown">
+          <SelectTimes v-if="getTeamSelected || $vuetify.breakpoint.mdAndDown" />
         </v-list-item-content>
       </v-list-item>
 
       <v-divider></v-divider>
+      <v-list-item v-for="item in items" :key="item.title" link :to="item.page">
+        <v-list-item-icon>
+          <v-icon>{{ item.icon }}</v-icon>
+        </v-list-item-icon>
 
-      <!-- <v-list dense>
-        <v-list-item
-          v-for="item in items"
-          :key="item.title"
-          link
-        >
-          <v-list-item-icon>
-            <v-icon>{{ item.icon }}</v-icon>
-          </v-list-item-icon>
-
-          <v-list-item-content>
-            <v-list-item-title>{{ item.title }}</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list> -->
+        <v-list-item-content>
+          <v-list-item-title>{{ item.title }}</v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
     </v-navigation-drawer>
   </v-app>
 </template>
@@ -112,12 +105,32 @@ export default {
         href: 'https://www.linkedin.com/in/bruno-trinchao/'
       }
     ],
-    imageMeta: null
+    imageMeta: null,
+    items: [
+      { title: 'Home', icon: 'mdi-home', page: 'home' },
+      { title: 'Metas por bloco', icon: 'mdi-view-dashboard', page: 'metas' },
+      { title: 'Evolução dos times', icon: 'mdi-chart-areaspline', page: 'evolucao' }
+    ]
   }),
+
+  watch: {
+    $route: {
+      handler() {
+        console.log(this.$route.name);
+      },
+      immediate: true
+    }
+  },
 
   computed: {
     getTeamName() {
       return this.teamSelected.name ?? null;
+    },
+    getTeamSelected() {
+      return this.teamSelected.id ?? null;
+    },
+    showSelectTeams() {
+      return this.$route.name == 'metas';
     },
     ...mapGetters(['teams', 'teamSelected'])
   },
