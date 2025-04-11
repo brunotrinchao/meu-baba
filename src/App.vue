@@ -130,7 +130,7 @@ export default {
       return this.teamSelected.id ?? null;
     },
     showSelectTeams() {
-      return this.$route.name == 'metas';
+      return true; //this.$route.name == 'metas';
     },
     ...mapGetters(['teams', 'teamSelected'])
   },
