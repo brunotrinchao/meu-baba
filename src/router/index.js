@@ -8,18 +8,18 @@ const routes = [
   {
     path: '/',
     name: 'home',
-    component: () => import(/* webpackChunkName: "home" */ '../views/HomeView.vue')
+    component: () => import(/* webpackChunkName: "home" */ '../views/MetasView.vue')
   },
   {
     path: '/metas',
     name: 'metas',
     component: () => import(/* webpackChunkName: "metas" */ '../views/MetasView.vue')
   },
-  {
-    path: '/evolucao',
-    name: 'evolucao',
-    component: () => import(/* webpackChunkName: "metas" */ '../views/EvolucaoView.vue')
-  },
+  // {
+  //   path: '/evolucao',
+  //   name: 'evolucao',
+  //   component: () => import(/* webpackChunkName: "metas" */ '../views/EvolucaoView.vue')
+  // },
   {
     path: '/login',
     name: 'login',

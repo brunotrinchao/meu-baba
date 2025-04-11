@@ -4,7 +4,7 @@
     <Preloader />
     <v-app-bar app elevation="0" light class="white">
       <!-- <div class="d-flex align-center"> -->
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+      <v-app-bar-nav-icon @click.stop="drawer = !drawer" v-if="$vuetify.breakpoint.mdAndDown"></v-app-bar-nav-icon>
       <v-toolbar-title>
         <img :src="getLogo()" height="30" />
         {{ newTitle }} |
@@ -64,7 +64,7 @@
       </v-list-item>
 
       <v-divider></v-divider>
-      <v-list-item v-for="item in items" :key="item.title" link :to="item.page">
+      <!-- <v-list-item v-for="item in items" :key="item.title" link :to="item.page">
         <v-list-item-icon>
           <v-icon>{{ item.icon }}</v-icon>
         </v-list-item-icon>
@@ -72,7 +72,7 @@
         <v-list-item-content>
           <v-list-item-title>{{ item.title }}</v-list-item-title>
         </v-list-item-content>
-      </v-list-item>
+      </v-list-item> -->
     </v-navigation-drawer>
   </v-app>
 </template>
