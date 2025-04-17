@@ -18,7 +18,6 @@
     <v-list-item v-if="group.length < 6"></v-list-item>
     <v-list-item v-if="group.length < 6"></v-list-item>
     <v-list-item v-if="group.length < 6"></v-list-item>
-    <v-list-item v-if="group.length < 6"></v-list-item>
   </v-list>
 </template>
 <!-- eslint-disable prettier/prettier -->
