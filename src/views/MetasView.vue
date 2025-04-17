@@ -65,7 +65,7 @@
         <v-card-title class="text-h5 pa-2 align-center text-center align-content-center align-self-center">
           <span class="text-h6 font-weight-light">Bloco 0{{ index + 1 }}</span>
           <v-spacer></v-spacer>
-          <v-btn color="primary" :disabled="!isGroupPlayed(group)" @click="openDialog(group, index)" outlined fab x-small v-if="isGroupPlayed(group)">
+          <v-btn color="primary" :disabled="!isGroupPlayed(group)" @click="openDialog(group, index)" outlined fab x-small>
             <v-icon>mdi-chart-areaspline</v-icon>
           </v-btn>
         </v-card-title>
